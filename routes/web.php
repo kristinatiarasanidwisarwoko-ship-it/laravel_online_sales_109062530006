@@ -31,7 +31,7 @@ Route::middleware(['auth','role:customer'])->group(function () {
     Route::patch('/keranjang/{product}', [CartController::class, 'update'])->name('cart.update'); 
     Route::delete('/keranjang/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
     
-     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index'); 
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index'); 
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store'); 
     Route::get('/pesanan', [CustomerOrderController::class, 'index'])->name('orders.index'); 
     Route::get('/pesanan/{order}', [CustomerOrderController::class, 'show'])->name('orders.show'); 
@@ -44,7 +44,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth','role:admin'])->group
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy'); 
     Route::resource('products', AdminProductController::class)->except('show'); 
 
-Route::get('/stock', [StockController::class, 'index'])->name('stock.index');
+    Route::get('/stock', [StockController::class, 'index'])->name('stock.index');
     Route::get('/stock/create', [StockController::class, 'create'])->name('stock.create');
     Route::post('/stock', [StockController::class, 'store'])->name('stock.store');
 
@@ -53,7 +53,7 @@ Route::get('/stock', [StockController::class, 'index'])->name('stock.index');
     Route::put('/shipping/{shippingService}', [ShippingServiceController::class, 'update'])->name('shipping.update');
     Route::delete('/shipping/{shippingService}', [ShippingServiceController::class, 'destroy'])->name('shipping.destroy');
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
