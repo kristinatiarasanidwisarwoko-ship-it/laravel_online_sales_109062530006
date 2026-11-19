@@ -36,5 +36,5 @@ $item['quantity'] }}">
 </table> 
 <div class="card" style="margin-top:18px"> 
 <h3>Subtotal: Rp{{ number_format($subtotal,0,',','.') }}</h3> 
-<a class="btn" href="#">Lanjut Checkout</a>
+<a class="btn" href="{{ route('checkout.index') }}">Lanjut Checkout</a>
 </div>@endif@endsection 
