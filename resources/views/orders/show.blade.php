@@ -33,4 +33,4 @@
 <p>Subtotal: Rp{{ number_format($order->subtotal,0,',','.') }}</p> 
 <p>Ongkir: Rp{{ number_format($order->shipping_cost,0,',','.') }}</p> 
 <h3>Total: Rp{{ number_format($order->grand_total,0,',','.') }}</h3> 
-</div>@endsection
+</div>@endsection 
