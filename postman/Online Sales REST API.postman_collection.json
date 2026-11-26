@@ -1,0 +1,731 @@
+{
+  "info": {
+    "_postman_id": "45971891-8871-4b91-812a-c8f94def9c97",
+    "name": "Online Sales REST API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "60430360",
+    "_collection_link": "https://go.postman.co/collection/60430360-45971891-8871-4b91-812a-c8f94def9c97?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "List Produk",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/products?ready=1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "ready",
+              "value": "1"
+            },
+            {
+              "key": "q",
+              "value": "phone",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login Customer",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const json = pm.response.json(); \r\npm.collectionVariables.set('customer_token', json.access_token); "
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"customer@example.com\",\r\n  \"password\": \"password123\",\r\n  \"device_name\": \"Postman Praktikum\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login Admin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const json = pm.response.json();\r\npm.collectionVariables.set('admin_token', json.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@example.com\",\r\n  \"password\": \"Admin12345!\",\r\n  \"device_name\": \"Postman Admin\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Me",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customer_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/auth/me",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "me"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Checkout",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customer_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"recipient_name\": \"Kristina Customer\",\r\n  \"phone\": \"081234567890\",\r\n  \"address\": \"Jl. Praktikum No. 10, Purwokerto\",\r\n  \"shipping_service_id\": 1,\r\n  \"items\": [\r\n    {\"product_id\": 1, \"quantity\": 2},\r\n    {\"product_id\": 3, \"quantity\": 1}\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/checkout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "checkout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Checkout field kosong",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customer_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"recipient_name\": \"\",\r\n  \"phone\": \"081234567890\",\r\n  \"address\": \"Jl. Praktikum No. 10, Purwokerto\",\r\n  \"shipping_service_id\": 1,\r\n  \"items\": [\r\n    {\"product_id\": 1, \"quantity\": 2},\r\n    {\"product_id\": 3, \"quantity\": 1}\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/checkout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "checkout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Checkout ekspedisi salah",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customer_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"recipient_name\": \"Kristina Customer\",\r\n  \"phone\": \"081234567890\",\r\n  \"address\": \"Jl. Praktikum No. 10, Purwokerto\",\r\n  \"shipping_service_id\": 99,\r\n  \"items\": [\r\n    {\"product_id\": 1, \"quantity\": 2},\r\n    {\"product_id\": 3, \"quantity\": 1}\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/checkout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "checkout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Checkout produk duplikat",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customer_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"recipient_name\": \"Kristina Customer\",\r\n  \"phone\": \"081234567890\",\r\n  \"address\": \"Jl. Praktikum No. 10, Purwokerto\",\r\n  \"shipping_service_id\": 1,\r\n  \"items\": [\r\n    {\"product_id\": 1, \"quantity\": 2},\r\n    {\"product_id\": 1, \"quantity\": 1}\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/checkout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "checkout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Checkout stok kurang",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customer_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"recipient_name\": \"Kristina Customer\",\r\n  \"phone\": \"081234567890\",\r\n  \"address\": \"Jl. Praktikum No. 10, Purwokerto\",\r\n  \"shipping_service_id\": 1,\r\n  \"items\": [\r\n    {\"product_id\": 1, \"quantity\": 20},\r\n    {\"product_id\": 3, \"quantity\": 30}\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/checkout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "checkout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Checkout tanpa token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customer_token}}",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"recipient_name\": \"Kristina Customer\",\r\n  \"phone\": \"081234567890\",\r\n  \"address\": \"Jl. Praktikum No. 10, Purwokerto\",\r\n  \"shipping_service_id\": 1,\r\n  \"items\": [\r\n    {\"product_id\": 1, \"quantity\": 2},\r\n    {\"product_id\": 3, \"quantity\": 1}\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/checkout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "checkout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Checkout role admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"recipient_name\": \"Kristina Customer\",\r\n  \"phone\": \"081234567890\",\r\n  \"address\": \"Jl. Praktikum No. 10, Purwokerto\",\r\n  \"shipping_service_id\": 1,\r\n  \"items\": [\r\n    {\"product_id\": 1, \"quantity\": 2},\r\n    {\"product_id\": 3, \"quantity\": 1}\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/checkout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "checkout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin List Order",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/admin/orders",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "orders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - token customer",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customer_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/admin/orders",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "orders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Confirm Pesanan",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/admin/orders/{{order_id}}/confirm",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "orders",
+            "{{order_id}}",
+            "confirm"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - Status processed",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"status\": \"processed\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/admin/orders/{{order_id}}/status",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "orders",
+            "{{order_id}}",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - Status shipped",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"status\": \"shipped\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/admin/orders/{{order_id}}/status",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "orders",
+            "{{order_id}}",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - Lompat status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"status\": \"shipped\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/admin/orders/{{order_id}}/status",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "orders",
+            "{{order_id}}",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - Status completed",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"status\": \"completed\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/admin/orders/{{order_id}}/status",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "orders",
+            "{{order_id}}",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customer_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/auth/logout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "customer_token",
+      "value": ""
+    },
+    {
+      "key": "admin_token",
+      "value": ""
+    },
+    {
+      "key": "order_id",
+      "value": ""
+    }
+  ]
+}
